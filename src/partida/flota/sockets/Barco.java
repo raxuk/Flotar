@@ -1,29 +1,31 @@
-package tablero;
+package partida.flota.sockets;
 
-public class Barco {	
-	/**
-	 * Clase para guardar la informacion de un barco en una partida de 'Hundir la flota'
-	 */
+public class Barco {
 
-	private int filaInicial,	// coordenadas iniciales del barco
-	            columnaInicial; 
-	private char orientacion;	// 'H': horizontal; 'V':vertical
-	private int	tamanyo,		// numero de casillas que ocupa
-	            tocadas;		// numero de casillas tocadas
+	private int filaInicial, // coordenadas iniciales del barco
+			columnaInicial;
+	private char orientacion; // 'H': horizontal; 'V':vertical
+	private int tamanyo, // numero de casillas que ocupa
+			tocadas; // numero de casillas tocadas
 
 	/**
 	 * Constructor por defecto. No hace nada
 	 */
-	public Barco() { 
+	public Barco() {
 		super();
 	}
 
 	/**
 	 * Constructor con argumentos
-	 * @param f				fila del barco
-	 * @param c				columna del barco
-	 * @param orientacion	orientacion (vertical u horizontal)
-	 * @param tamanyo		tamanyo del barco
+	 * 
+	 * @param f
+	 *            fila del barco
+	 * @param c
+	 *            columna del barco
+	 * @param orientacion
+	 *            orientacion (vertical u horizontal)
+	 * @param tamanyo
+	 *            tamanyo del barco
 	 */
 	public Barco(int f, int c, char orientacion, int tamanyo) {
 		super();
@@ -34,10 +36,10 @@ public class Barco {
 		this.tocadas = 0;
 	}
 
-
 	/**
 	 * Toca una nueva casilla de un barco e indica si se ha hundido
-	 * @return	valor logico indicando si se ha hundido
+	 * 
+	 * @return valor logico indicando si se ha hundido
 	 */
 	public boolean tocaBarco() {
 		this.tocadas++;
@@ -50,9 +52,10 @@ public class Barco {
 	}
 
 	/******************************************************************************************/
-	/*****************************     GETTERS y SETTERS    ***********************************/
+	/*****************************
+	 * GETTERS y SETTERS
+	 ***********************************/
 	/******************************************************************************************/
-
 
 	/**
 	 * @return the filaInicial
@@ -60,8 +63,10 @@ public class Barco {
 	public int getFilaInicial() {
 		return filaInicial;
 	}
+
 	/**
-	 * @param f the filaInicial to set
+	 * @param f
+	 *            the filaInicial to set
 	 */
 
 	/**
@@ -91,9 +96,5 @@ public class Barco {
 	public int getTocadas() {
 		return tocadas;
 	}
-	
-	
-
-
 
 } // end class Barco

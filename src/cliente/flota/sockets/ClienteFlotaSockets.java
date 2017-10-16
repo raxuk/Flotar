@@ -1,14 +1,24 @@
-package tablero;
+package cliente.flota.sockets;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.*;
 
-public class Juego {
+import partida.flota.sockets.Partida;
+
+public class ClienteFlotaSockets {
+	
+	// Sustituye esta clase por tu versión de la clase Juego de la práctica 1
+	
+	// Modifícala para que instancie un objeto de la clase AuxiliarClienteFlota en el método 'ejecuta'
+	
+	// Modifica todas las llamadas al objeto de la clase Partida
+	// por llamadas al objeto de la clase AuxiliarClienteFlota.
+	// Los métodos a llamar tendrán la misma signatura.
+	
 
 	/**
 	 * Implementa el juego 'Hundir la flota' mediante una interfaz gráfica (GUI)
@@ -20,8 +30,7 @@ public class Juego {
 	public static final int NUMFILAS = 8, NUMCOLUMNAS = 8, NUMBARCOS = 6;
 
 	private GuiTablero guiTablero = null;
-	private Partida partida = null; // Objeto con los datos de la partida en
-									// juego
+	private AuxiliarClienteFlota auxiliarCliente = null;
 
 	/**
 	 * Atributos de la partida guardados en el juego para simplificar su
@@ -35,7 +44,7 @@ public class Juego {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Juego juego = new Juego();
+		ClienteFlotaSockets juego = new ClienteFlotaSockets();
 		juego.ejecuta();
 	} // end main
 
@@ -45,7 +54,11 @@ public class Juego {
 	 */
 	private void ejecuta() {
 		// Instancia la primera partida
-		partida = new Partida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
+		try {
+			auxiliarCliente = new AuxiliarClienteFlota("localHost", "1099"); //instancia objeto tipo AuxiliarClienteFLota !!!
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
