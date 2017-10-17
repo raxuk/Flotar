@@ -195,7 +195,12 @@ public class ClienteFlotaSockets {
 		public void muestraSolucion() {
 			// Colorea casillas a mar y despues comprueba el id de cada casilla
 			// para pintarlo
-			String[] solucion = partida.getSolucion();
+			String[] solucion = null;
+			try {
+				solucion = auxiliarCliente.getSolucion();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
 			for (int i = 0; i < numFilas; i++)
 				for (int j = 0; j < numColumnas; j++)
@@ -291,7 +296,12 @@ public class ClienteFlotaSockets {
 			if (texto.equals("Mostrar Solucion")) {
 				guiTablero.muestraSolucion();
 			} else if (texto.equals("Nueva Partida")) {
-				partida = new Partida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
+				try {
+					auxiliarCliente.nuevaPartida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				// Resetea el juego a partir de aqui
 				guiTablero.limpiaTablero();
 				quedan = NUMBARCOS;
@@ -331,13 +341,23 @@ public class ClienteFlotaSockets {
 			if (quedan > 0 && boton.getBackground().equals(colorDefault)) {
 				int fila = (int) boton.getClientProperty("fila");
 				int columna = (int) boton.getClientProperty("columna");
-				int casilla = partida.pruebaCasilla(fila, columna);
+				int casilla = (Integer) null;
+				try {
+					casilla = auxiliarCliente.pruebaCasilla(fila, columna);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				if (casilla == -1)
 					guiTablero.pintaBoton(boton, Color.CYAN);
 				else if (casilla == -2)
 					guiTablero.pintaBoton(boton, Color.ORANGE);
 				else {
-					guiTablero.pintaBarcoHundido(partida.getBarco(casilla), Color.RED);
+					try {
+						guiTablero.pintaBarcoHundido(auxiliarCliente.getBarco(casilla), Color.RED);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					quedan--;
 				}
 				disparos++;
