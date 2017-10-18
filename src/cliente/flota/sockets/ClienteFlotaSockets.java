@@ -54,6 +54,7 @@ public class ClienteFlotaSockets {
 		// Instancia la primera partida
 		try {
 			partida = new AuxiliarClienteFlota("localhost", "1099"); //instancia objeto tipo AuxiliarClienteFLota !!!
+			partida.nuevaPartida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -306,6 +307,7 @@ public class ClienteFlotaSockets {
 				disparos = 0;
 				guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
 			} else if (texto.equals("Salir")) {
+				partida.fin();
 				guiTablero.liberaRecursos();
 				System.exit(0);
 			}
