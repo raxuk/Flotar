@@ -55,11 +55,7 @@ public class ClienteFlotaSockets {
 	private void ejecuta() {
 		// Instancia la primera partida
 		try {
-			partida = new AuxiliarClienteFlota("localhost", "1099"); // instancia
-																		// objeto
-																		// tipo
-																		// AuxiliarClienteFLota
-																		// !!!
+			partida = new AuxiliarClienteFlota("localhost", "1099"); // instancia objeto tipo AuxiliarClienteFLota
 			partida.nuevaPartida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -90,8 +86,7 @@ public class ClienteFlotaSockets {
 
 		private JFrame frame = null; // Tablero de juego
 		private JLabel estado = null; // Texto en el panel de estado
-		private JButton buttons[][] = null; // Botones asociados a las casillas
-											// de la partida
+		private JButton buttons[][] = null; // Botones asociados a las casillas de la partida
 
 		/**
 		 * Constructor de una tablero dadas sus dimensiones
@@ -187,7 +182,7 @@ public class ClienteFlotaSockets {
 		 * @param cadena
 		 *            cadena inicial del panel de estado
 		 */
-		private void anyadePanelEstado(String cadena) { // DONE
+		private void anyadePanelEstado(String cadena) { 
 			JPanel panelEstado = new JPanel();
 			estado = new JLabel(cadena);
 			panelEstado.add(estado);
@@ -201,7 +196,7 @@ public class ClienteFlotaSockets {
 		 * @param cadenaEstado
 		 *            nuevo estado
 		 */
-		public void cambiaEstado(String cadenaEstado) { // DONE
+		public void cambiaEstado(String cadenaEstado) { 
 			estado.setText(cadenaEstado);
 		} // end cambiaEstado
 
@@ -305,8 +300,8 @@ public class ClienteFlotaSockets {
 	private class MenuListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent e) { // Segun elemento menu
-														// realiza accion
+		public void actionPerformed(ActionEvent e) { 
+			// Segun elemento menu realiza accion
 			JMenuItem elem = (JMenuItem) e.getSource();
 			String texto = elem.getText();
 			if (texto.equals("Mostrar Solucion")) {
@@ -342,10 +337,8 @@ public class ClienteFlotaSockets {
 	 * propiedades de los componentes, apoyandose en los metodos
 	 * putClientProperty y getClientProperty
 	 */
-	private class ButtonListener implements ActionListener { // Segun casilla la
-																// prueba si no
-																// ha sido ya
-																// tocada
+	private class ButtonListener implements ActionListener { 
+		// Segun casilla la prueba si no ha sido ya tocada
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
