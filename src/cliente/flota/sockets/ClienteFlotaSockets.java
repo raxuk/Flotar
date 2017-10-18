@@ -3,20 +3,22 @@ package cliente.flota.sockets;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import javax.swing.*;
 
 public class ClienteFlotaSockets {
-	
+
 	// Sustituye esta clase por tu versión de la clase Juego de la práctica 1
-	
-	// Modifícala para que instancie un objeto de la clase AuxiliarClienteFlota en el método 'ejecuta'
-	
+
+	// Modifícala para que instancie un objeto de la clase AuxiliarClienteFlota
+	// en el método 'ejecuta'
+
 	// Modifica todas las llamadas al objeto de la clase Partida
 	// por llamadas al objeto de la clase AuxiliarClienteFlota.
 	// Los métodos a llamar tendrán la misma signatura.
-	
 
 	/**
 	 * Implementa el juego 'Hundir la flota' mediante una interfaz gráfica (GUI)
@@ -53,7 +55,11 @@ public class ClienteFlotaSockets {
 	private void ejecuta() {
 		// Instancia la primera partida
 		try {
-			partida = new AuxiliarClienteFlota("localhost", "1099"); //instancia objeto tipo AuxiliarClienteFLota !!!
+			partida = new AuxiliarClienteFlota("localhost", "1099"); // instancia
+																		// objeto
+																		// tipo
+																		// AuxiliarClienteFLota
+																		// !!!
 			partida.nuevaPartida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -66,6 +72,12 @@ public class ClienteFlotaSockets {
 			}
 		});
 	} // end ejecuta
+
+	private void salir() {
+		partida.fin();
+		guiTablero.liberaRecursos();
+		System.exit(0);
+	}
 
 	/******************************************************************************************/
 	/*********************
@@ -88,7 +100,12 @@ public class ClienteFlotaSockets {
 			this.numFilas = numFilas;
 			this.numColumnas = numColumnas;
 			frame = new JFrame();
-			frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+			frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+			frame.addWindowListener(new WindowAdapter() {
+				public void windowClosing(WindowEvent e) {
+					salir();
+				}
+			});
 		}
 
 		/**
@@ -307,9 +324,7 @@ public class ClienteFlotaSockets {
 				disparos = 0;
 				guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
 			} else if (texto.equals("Salir")) {
-				partida.fin();
-				guiTablero.liberaRecursos();
-				System.exit(0);
+				salir();
 			}
 
 		} // end actionPerformed
