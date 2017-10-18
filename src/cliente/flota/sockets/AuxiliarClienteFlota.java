@@ -28,9 +28,9 @@ public class AuxiliarClienteFlota {
 	 *            numero de puerto asociado al servicio en el servidor
 	 */
 	AuxiliarClienteFlota(String hostName, String portNum) throws SocketException, UnknownHostException, IOException {
-		serverHost = InetAddress.getByName(hostName);
-		serverPort = Integer.parseInt(portNum);
-		mySocket = new MyStreamSocket(serverHost, serverPort);
+		this.serverHost = InetAddress.getByName(hostName);
+		this.serverPort = Integer.parseInt(portNum);
+		this.mySocket = new MyStreamSocket(serverHost, serverPort);
 	} // end constructor
 
 	/**
@@ -86,7 +86,7 @@ public class AuxiliarClienteFlota {
 		
 		int resultadoInt;
 		try {
-			resultadoInt = Integer.parseInt(resultado); //TODO COMPROBAR
+			resultadoInt = Integer.parseInt(resultado);
 		} catch (NumberFormatException e) {
 			resultadoInt = 0;
 		}

@@ -23,7 +23,7 @@ class HiloServidorFlota implements Runnable {
 	 * @param	myDataSocket	socket stream para comunicarse con el cliente
 	 */
    HiloServidorFlota(MyStreamSocket myDataSocket) {
-	   this.myDataSocket = myDataSocket;	   
+	   this.myDataSocket = myDataSocket;
    }
  
    /**

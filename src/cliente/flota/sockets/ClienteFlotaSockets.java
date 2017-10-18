@@ -7,8 +7,6 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import partida.flota.sockets.Partida;
-
 public class ClienteFlotaSockets {
 	
 	// Sustituye esta clase por tu versión de la clase Juego de la práctica 1
@@ -30,7 +28,7 @@ public class ClienteFlotaSockets {
 	public static final int NUMFILAS = 8, NUMCOLUMNAS = 8, NUMBARCOS = 6;
 
 	private GuiTablero guiTablero = null;
-	private AuxiliarClienteFlota auxiliarCliente = null;
+	private AuxiliarClienteFlota partida = null;
 
 	/**
 	 * Atributos de la partida guardados en el juego para simplificar su
@@ -55,7 +53,7 @@ public class ClienteFlotaSockets {
 	private void ejecuta() {
 		// Instancia la primera partida
 		try {
-			auxiliarCliente = new AuxiliarClienteFlota("localHost", "1099"); //instancia objeto tipo AuxiliarClienteFLota !!!
+			partida = new AuxiliarClienteFlota("localhost", "1099"); //instancia objeto tipo AuxiliarClienteFLota !!!
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -197,7 +195,7 @@ public class ClienteFlotaSockets {
 			// para pintarlo
 			String[] solucion = null;
 			try {
-				solucion = auxiliarCliente.getSolucion();
+				solucion = partida.getSolucion();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -297,7 +295,7 @@ public class ClienteFlotaSockets {
 				guiTablero.muestraSolucion();
 			} else if (texto.equals("Nueva Partida")) {
 				try {
-					auxiliarCliente.nuevaPartida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
+					partida.nuevaPartida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -341,9 +339,9 @@ public class ClienteFlotaSockets {
 			if (quedan > 0 && boton.getBackground().equals(colorDefault)) {
 				int fila = (int) boton.getClientProperty("fila");
 				int columna = (int) boton.getClientProperty("columna");
-				int casilla = (Integer) null;
+				int casilla = -5;
 				try {
-					casilla = auxiliarCliente.pruebaCasilla(fila, columna);
+					casilla = partida.pruebaCasilla(fila, columna);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -353,7 +351,7 @@ public class ClienteFlotaSockets {
 					guiTablero.pintaBoton(boton, Color.ORANGE);
 				else {
 					try {
-						guiTablero.pintaBarcoHundido(auxiliarCliente.getBarco(casilla), Color.RED);
+						guiTablero.pintaBarcoHundido(partida.getBarco(casilla), Color.RED);
 					} catch (IOException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

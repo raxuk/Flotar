@@ -19,14 +19,14 @@ public class ServidorFlotaSockets {
 		// Acepta conexiones vía socket de distintos clientes.
 		// Por cada conexión establecida lanza una hebra de la clase
 		// HiloServidorFlota.
-		try (ServerSocket myConnectionSocket = new ServerSocket(7)) {
-			System.out.println("Echo server ready.");
+		try (ServerSocket myConnectionSocket = new ServerSocket(1099)) {
+			System.out.println("Servidor listo");
 			while (true) {
-				System.out.println("Waiting for a connection.");
+				System.out.println("Esperando conexion.");
 				MyStreamSocket myDataSocket = new MyStreamSocket(myConnectionSocket.accept());
-				System.out.println("connection accepted");
-				Thread theThread = new Thread(new HiloServidorFlota(myDataSocket));
-				theThread.start();
+				System.out.println("Conexion aceptada.");
+				Thread hilo = new Thread(new HiloServidorFlota(myDataSocket));
+				hilo.start();
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
