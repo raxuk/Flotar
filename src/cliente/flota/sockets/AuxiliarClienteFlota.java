@@ -39,7 +39,7 @@ public class AuxiliarClienteFlota {
 	 * 
 	 * @throws IOException
 	 */
-	public void fin() { // TODO
+	public void fin() { 
 		String peticionFinConexion = "0";
 		try {
 			mySocket.sendMessage(peticionFinConexion);
@@ -60,7 +60,7 @@ public class AuxiliarClienteFlota {
 	 *            número de barcos de la partida
 	 * @throws IOException
 	 */
-	public void nuevaPartida(int nf, int nc, int nb) throws IOException { //TODO
+	public void nuevaPartida(int nf, int nc, int nb) throws IOException { 
 		String nuevaPartida = "1"+"#"+nf+"#"+nc+"#"+nb;		
 		mySocket.sendMessage(nuevaPartida);
 	} // end nuevaPartida
@@ -109,7 +109,7 @@ public class AuxiliarClienteFlota {
 		String barcoId = "3"+"#"+idBarco;
 		mySocket.sendMessage(barcoId);
 		
-		return mySocket.receiveMessage(); //TODO COMPROBAR
+		return mySocket.receiveMessage();
 
 	} // end getCasilla
 

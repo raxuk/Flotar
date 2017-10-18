@@ -310,7 +310,6 @@ public class ClienteFlotaSockets {
 				try {
 					partida.nuevaPartida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				// Resetea el juego a partir de aqui
@@ -363,7 +362,6 @@ public class ClienteFlotaSockets {
 					try {
 						guiTablero.pintaBarcoHundido(partida.getBarco(casilla), Color.RED);
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					quedan--;
