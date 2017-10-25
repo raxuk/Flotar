@@ -64,13 +64,20 @@ public class Juego {
 
 		private int numFilas, numColumnas;
 
-		private JFrame frame = null; // Tablero de juego
-		private JLabel estado = null; // Texto en el panel de estado
-		private JButton buttons[][] = null; // Botones asociados a las casillas
-											// de la partida
+		// Tablero de juego
+		private JFrame frame = null;
+		// Texto en el panel de estado
+		private JLabel estado = null;
+		// Botones asociados a las casillas de la partida
+		private JButton buttons[][] = null;
 
 		/**
 		 * Constructor de una tablero dadas sus dimensiones
+		 * 
+		 * @param numFilas
+		 *            Numero de filas
+		 * @param numColumnas
+		 *            Numero de columnas
 		 */
 		GuiTablero(int numFilas, int numColumnas) {
 			this.numFilas = numFilas;
@@ -93,24 +100,32 @@ public class Juego {
 		/**
 		 * Anyade el menu de opciones del juego y le asocia un escuchador
 		 */
-		private void anyadeMenu() { // COMENTAR
+		private void anyadeMenu() {
+			// Listener del menu
 			MenuListener mlist = new MenuListener();
-			JMenuBar menuBar;
-			JMenu menu;
-			JMenuItem mossol, npar, salir;
-			menuBar = new JMenuBar();
-			menu = new JMenu("Opciones");
-			menuBar.add(menu);
-			mossol = new JMenuItem("Mostrar Solucion");
-			npar = new JMenuItem("Nueva Partida");
-			salir = new JMenuItem("Salir");
-			menu.add(mossol);
-			menu.add(npar);
-			menu.add(salir);
-			mossol.addActionListener(mlist);
-			npar.addActionListener(mlist);
-			salir.addActionListener(mlist);
+
+			// barra del menu
+			JMenuBar menuBar = new JMenuBar();
+			// añadir barra del menu al frame
 			frame.getContentPane().add(menuBar, BorderLayout.NORTH);
+
+			// menu
+			JMenu opcionesPartidaMenu = new JMenu("Opciones");
+			// añadir menu a la barra
+			menuBar.add(opcionesPartidaMenu);
+
+			// elementos del menuOpciones
+			JMenuItem mostrarSolucion = new JMenuItem("Mostrar Solucion");
+			JMenuItem nuevaPartida = new JMenuItem("Nueva Partida");
+			JMenuItem salirJuego = new JMenuItem("Salir");
+			// añadir elementos al menu Opciones
+			opcionesPartidaMenu.add(mostrarSolucion);
+			opcionesPartidaMenu.add(nuevaPartida);
+			opcionesPartidaMenu.add(salirJuego);
+			// añadir listeners a los elementos del menu opciones
+			mostrarSolucion.addActionListener(mlist);
+			nuevaPartida.addActionListener(mlist);
+			salirJuego.addActionListener(mlist);
 		} // end anyadeMenu
 
 		/**
@@ -123,16 +138,28 @@ public class Juego {
 		 *            numero de columnas
 		 */
 		private void anyadeGrid(int nf, int nc) { // COMENTAR
-			buttons = new JButton[nf][nc];
-			ButtonListener blist = new ButtonListener();
-			GridLayout centroLay = new GridLayout(nf + 1, nc + 2);
+			// JPANEL
 			JPanel centro = new JPanel();
+			// crear layout
+			GridLayout centroLay = new GridLayout(nf + 1, nc + 2);
+			// asignar layout al jpanelCentro
 			centro.setLayout(centroLay);
+
+			// asignar tamaño
+			buttons = new JButton[nf][nc];
+
+			// crear button listener
+			ButtonListener blist = new ButtonListener();
+
+			// añadir botones, letras, numeros al jpanel
 			centro.add(new JLabel(" "));
+
 			for (int i = 1; i <= nc; i++) {
 				centro.add(new JLabel(Integer.toString(i), SwingConstants.CENTER));
 			}
+
 			centro.add(new JLabel(" "));
+
 			char letra = 'A';
 			for (int i = 0; i < nf; i++) {
 				centro.add(new JLabel(String.valueOf((letra)), SwingConstants.CENTER));
@@ -199,6 +226,8 @@ public class Juego {
 		 * @param cadenaBarco
 		 *            cadena con los datos del barco codifificados como
 		 *            "filaInicial#columnaInicial#orientacion#tamanyo"
+		 * @param color
+		 *            color a usar
 		 */
 		public void pintaBarcoHundido(String cadenaBarco, Color color) {
 			// Una vez hundido se encarga de pintarlo segun orientacion
@@ -271,8 +300,8 @@ public class Juego {
 	private class MenuListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent e) { // Segun elemento menu
-														// realiza accion
+		public void actionPerformed(ActionEvent e) {
+			// Segun elemento menu mrealiza accion
 			JMenuItem elem = (JMenuItem) e.getSource();
 			String texto = elem.getText();
 			if (texto.equals("Mostrar Solucion")) {
@@ -304,11 +333,8 @@ public class Juego {
 	 * propiedades de los componentes, apoyandose en los metodos
 	 * putClientProperty y getClientProperty
 	 */
-	private class ButtonListener implements ActionListener { // Segun casilla la
-																// prueba si no
-																// ha sido ya
-																// tocada
-
+	private class ButtonListener implements ActionListener {
+		// Segun casilla la prueba si no ha sido ya tocada
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JButton boton = new JButton();

@@ -93,8 +93,12 @@ public class Partida {
 	}
 
 	/********************************    METODOS PRIVADOS  ********************************************/
-    
-	private void hundir(int idBarco){ //hunde el barco si todas sus posiciones han sido tocadas
+    /**
+     * Hunde un barco si todas sus posiciones han sido tocadas
+     * 
+     * @param idBarco
+     */
+	private void hundir(int idBarco){ 
 		int x = barcos.get(idBarco).getFilaInicial();
 		int y = barcos.get(idBarco).getColumnaInicial();
 	
@@ -111,7 +115,10 @@ public class Partida {
 	
 	/**
 	 * Inicia todas las casillas del tablero a AGUA
-	 */	
+	 * 
+	 * @param nf
+	 * @param nc
+	 */
 	private void iniciaMatriz(int nf, int nc) {
 		this.mar = new int[nf][nc];
 		for (int i = 0; i < numFilas; i++ ) {
