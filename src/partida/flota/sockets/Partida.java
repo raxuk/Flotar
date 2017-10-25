@@ -10,12 +10,13 @@ public class Partida {
 	public static final int AGUA = -1, TOCADO = -2, HUNDIDO = -3;
 
 	/**
-	 * El mar se representa mediante una matriz de casillas En una casilla no tocada
-	 * con un barco se guarda el indice del barco en el vector de barcos El resto de
-	 * valores posibles (AGUA, TOCADO y HUNDIDO) se representan mediante constantes
-	 * enteras negativas.
+	 * El mar se representa mediante una matriz de casillas En una casilla no
+	 * tocada con un barco se guarda el indice del barco en el vector de barcos
+	 * El resto de valores posibles (AGUA, TOCADO y HUNDIDO) se representan
+	 * mediante constantes enteras negativas.
 	 */
-	private int mar[][] = null; // matriz que contendra el mar y los barcos en distintos estados
+	private int mar[][] = null; // matriz que contendra el mar y los barcos en
+								// distintos estados
 	private int numFilas, // numero de filas del tablero
 			numColumnas; // numero de columnas del tablero
 	private Vector<Barco> barcos = null; // vector dinamico de barcos
@@ -109,7 +110,12 @@ public class Partida {
 	 * METODOS PRIVADOS
 	 ********************************************/
 
-	private void hundir(int idBarco) { // hunde el barco si todas sus posiciones han sido tocadas
+	/**
+	 * Hunde un barco si todas sus posiciones han sido tocadas
+	 * 
+	 * @param idBarco
+	 */
+	private void hundir(int idBarco) {
 		int x = barcos.get(idBarco).getFilaInicial();
 		int y = barcos.get(idBarco).getColumnaInicial();
 
@@ -126,6 +132,9 @@ public class Partida {
 
 	/**
 	 * Inicia todas las casillas del tablero a AGUA
+	 * 
+	 * @param nf numero filas
+	 * @param nc numero columnas
 	 */
 	private void iniciaMatriz(int nf, int nc) {
 		this.mar = new int[nf][nc];
@@ -141,8 +150,8 @@ public class Partida {
 	 */
 	private void ponBarcos() {
 		/*
-		 * Por defecto colocamos un barco de tamaño 4, uno de tamaño 3, otro de tamaño 2
-		 * y tres barcos de tamaño 1
+		 * Por defecto colocamos un barco de tamaño 4, uno de tamaño 3, otro de
+		 * tamaño 2 y tres barcos de tamaño 1
 		 */
 		barcos.add(ponBarco(0, 4));
 		barcos.add(ponBarco(1, 3));
@@ -165,7 +174,8 @@ public class Partida {
 		char orientacion = ' ';
 		boolean ok = false;
 		int fila = 0, col = 0;
-		Random random = new Random(); // Para generar aleatoriamente la orientacion y posicion de los barcos
+		Random random = new Random(); // Para generar aleatoriamente la
+										// orientacion y posicion de los barcos
 
 		// Itera hasta que encuentra hueco para colocar el barco cumpliendo las
 		// restricciones
@@ -173,10 +183,13 @@ public class Partida {
 			// Primero genera aleatoriamente la orientacion del barco
 			if (random.nextInt(2) == 0) { // Se dispone horizontalmente
 				// Ahora genera aleatoriamente la posicion del barco
-				col = random.nextInt(numColumnas + 1 - tam); // resta tam para asegurar que cabe
+				col = random.nextInt(numColumnas + 1 - tam); // resta tam para
+																// asegurar que
+																// cabe
 				fila = random.nextInt(numFilas);
 
-				// Comprueba si cabe a partir de la posicion generada con mar o borde alrededor
+				// Comprueba si cabe a partir de la posicion generada con mar o
+				// borde alrededor
 				if (librePosiciones(fila, col, tam + 1, 'H')) {
 					// Coloca el barco en el mar
 					for (int i = 0; i < tam; i++) {
@@ -202,8 +215,8 @@ public class Partida {
 
 	/**
 	 * Comprueba si hay hueco para un barco a partir de una casilla inicial. Los
-	 * barcos se colocan dejando una casilla de hueco con los otros. Pueden pegarse
-	 * a los bordes.
+	 * barcos se colocan dejando una casilla de hueco con los otros. Pueden
+	 * pegarse a los bordes.
 	 * 
 	 * @param fila
 	 *            fila de la casilla inicial
@@ -234,7 +247,8 @@ public class Partida {
 					&& ((col == numColumnas - 1) || (mar[fila + i][col + 1] == AGUA)))
 				i++;
 		}
-		// Ha encontrado un hueco cuando ha generado el barco totalmente rodeado de agua
+		// Ha encontrado un hueco cuando ha generado el barco totalmente rodeado
+		// de agua
 		// o
 		boolean resultado = (i == tam);
 		// lo ha generado horizontal pegado al borde derecho o

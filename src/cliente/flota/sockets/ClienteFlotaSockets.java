@@ -55,7 +55,10 @@ public class ClienteFlotaSockets {
 	private void ejecuta() {
 		// Instancia la primera partida
 		try {
-			partida = new AuxiliarClienteFlota("localhost", "1099"); // instancia objeto tipo AuxiliarClienteFLota
+			partida = new AuxiliarClienteFlota("localhost", "1099"); // instancia
+																		// objeto
+																		// tipo
+																		// AuxiliarClienteFLota
 			partida.nuevaPartida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -70,8 +73,12 @@ public class ClienteFlotaSockets {
 	} // end ejecuta
 
 	private void salir() {
-		partida.fin();
-		guiTablero.liberaRecursos();
+		try {
+			partida.fin();
+			guiTablero.liberaRecursos();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		System.exit(0);
 	}
 
@@ -86,7 +93,8 @@ public class ClienteFlotaSockets {
 
 		private JFrame frame = null; // Tablero de juego
 		private JLabel estado = null; // Texto en el panel de estado
-		private JButton buttons[][] = null; // Botones asociados a las casillas de la partida
+		private JButton buttons[][] = null; // Botones asociados a las casillas
+											// de la partida
 
 		/**
 		 * Constructor de una tablero dadas sus dimensiones
@@ -117,24 +125,32 @@ public class ClienteFlotaSockets {
 		/**
 		 * Anyade el menu de opciones del juego y le asocia un escuchador
 		 */
-		private void anyadeMenu() { // COMENTAR
+		private void anyadeMenu() {
+			// Listener del menu
 			MenuListener mlist = new MenuListener();
-			JMenuBar menuBar;
-			JMenu menu;
-			JMenuItem mossol, npar, salir;
-			menuBar = new JMenuBar();
-			menu = new JMenu("Opciones");
-			menuBar.add(menu);
-			mossol = new JMenuItem("Mostrar Solucion");
-			npar = new JMenuItem("Nueva Partida");
-			salir = new JMenuItem("Salir");
-			menu.add(mossol);
-			menu.add(npar);
-			menu.add(salir);
-			mossol.addActionListener(mlist);
-			npar.addActionListener(mlist);
-			salir.addActionListener(mlist);
+
+			// barra del menu
+			JMenuBar menuBar = new JMenuBar();
+			// añadir barra del menu al frame
 			frame.getContentPane().add(menuBar, BorderLayout.NORTH);
+
+			// menu
+			JMenu opcionesPartidaMenu = new JMenu("Opciones");
+			// añadir menu a la barra
+			menuBar.add(opcionesPartidaMenu);
+
+			// elementos del menuOpciones
+			JMenuItem mostrarSolucion = new JMenuItem("Mostrar Solucion");
+			JMenuItem nuevaPartida = new JMenuItem("Nueva Partida");
+			JMenuItem salirJuego = new JMenuItem("Salir");
+			// añadir elementos al menu Opciones
+			opcionesPartidaMenu.add(mostrarSolucion);
+			opcionesPartidaMenu.add(nuevaPartida);
+			opcionesPartidaMenu.add(salirJuego);
+			// añadir listeners a los elementos del menu opciones
+			mostrarSolucion.addActionListener(mlist);
+			nuevaPartida.addActionListener(mlist);
+			salirJuego.addActionListener(mlist);
 		} // end anyadeMenu
 
 		/**
@@ -147,16 +163,28 @@ public class ClienteFlotaSockets {
 		 *            numero de columnas
 		 */
 		private void anyadeGrid(int nf, int nc) { // COMENTAR
-			buttons = new JButton[nf][nc];
-			ButtonListener blist = new ButtonListener();
-			GridLayout centroLay = new GridLayout(nf + 1, nc + 2);
+			// JPANEL
 			JPanel centro = new JPanel();
+			// crear layout
+			GridLayout centroLay = new GridLayout(nf + 1, nc + 2);
+			// asignar layout al jpanelCentro
 			centro.setLayout(centroLay);
+
+			// asignar tamaño
+			buttons = new JButton[nf][nc];
+
+			// crear button listener
+			ButtonListener blist = new ButtonListener();
+
+			// añadir botones, letras, numeros al jpanel
 			centro.add(new JLabel(" "));
+
 			for (int i = 1; i <= nc; i++) {
 				centro.add(new JLabel(Integer.toString(i), SwingConstants.CENTER));
 			}
+
 			centro.add(new JLabel(" "));
+
 			char letra = 'A';
 			for (int i = 0; i < nf; i++) {
 				centro.add(new JLabel(String.valueOf((letra)), SwingConstants.CENTER));
@@ -182,7 +210,7 @@ public class ClienteFlotaSockets {
 		 * @param cadena
 		 *            cadena inicial del panel de estado
 		 */
-		private void anyadePanelEstado(String cadena) { 
+		private void anyadePanelEstado(String cadena) {
 			JPanel panelEstado = new JPanel();
 			estado = new JLabel(cadena);
 			panelEstado.add(estado);
@@ -196,7 +224,7 @@ public class ClienteFlotaSockets {
 		 * @param cadenaEstado
 		 *            nuevo estado
 		 */
-		public void cambiaEstado(String cadenaEstado) { 
+		public void cambiaEstado(String cadenaEstado) {
 			estado.setText(cadenaEstado);
 		} // end cambiaEstado
 
@@ -228,6 +256,8 @@ public class ClienteFlotaSockets {
 		 * @param cadenaBarco
 		 *            cadena con los datos del barco codifificados como
 		 *            "filaInicial#columnaInicial#orientacion#tamanyo"
+		 * @param color
+		 *            color a usar
 		 */
 		public void pintaBarcoHundido(String cadenaBarco, Color color) {
 			// Una vez hundido se encarga de pintarlo segun orientacion
@@ -300,7 +330,7 @@ public class ClienteFlotaSockets {
 	private class MenuListener implements ActionListener {
 
 		@Override
-		public void actionPerformed(ActionEvent e) { 
+		public void actionPerformed(ActionEvent e) {
 			// Segun elemento menu realiza accion
 			JMenuItem elem = (JMenuItem) e.getSource();
 			String texto = elem.getText();
@@ -336,7 +366,7 @@ public class ClienteFlotaSockets {
 	 * propiedades de los componentes, apoyandose en los metodos
 	 * putClientProperty y getClientProperty
 	 */
-	private class ButtonListener implements ActionListener { 
+	private class ButtonListener implements ActionListener {
 		// Segun casilla la prueba si no ha sido ya tocada
 
 		@Override
