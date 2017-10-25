@@ -139,9 +139,12 @@ public class ClienteFlotaRMI {
 
 			// menu
 			JMenu opcionesPartidaMenu = new JMenu("Opciones");
+			JMenu opcionesMultiMenu= new JMenu("Multijugador");
 			// añadir menu a la barra
 			menuBar.add(opcionesPartidaMenu);
+			menuBar.add(opcionesMultiMenu);
 
+			//MENU OPCIONES
 			// elementos del menuOpciones
 			JMenuItem mostrarSolucion = new JMenuItem("Mostrar Solucion");
 			JMenuItem nuevaPartida = new JMenuItem("Nueva Partida");
@@ -154,6 +157,20 @@ public class ClienteFlotaRMI {
 			mostrarSolucion.addActionListener(mlist);
 			nuevaPartida.addActionListener(mlist);
 			salirJuego.addActionListener(mlist);
+			
+			//MENU MULTI
+			//elementos del menu multi
+			JMenuItem proponPartida = new JMenuItem("Proponer partida");
+			JMenuItem borraPartida = new JMenuItem("Borrar partida propuesta");
+			JMenuItem listaPartidas = new JMenuItem("Listar partidas");
+			JMenuItem aceptaPartida = new JMenuItem("Aceptar Partidas");
+			//añadir elementos al menuMulti
+			opcionesMultiMenu.add(proponPartida);
+			opcionesMultiMenu.add(borraPartida);
+			opcionesMultiMenu.add(listaPartidas);
+			opcionesMultiMenu.add(aceptaPartida);
+			//añadir listeners a los elementos del menu multi
+			
 		} // end anyadeMenu
 
 		/**
