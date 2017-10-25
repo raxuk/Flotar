@@ -12,7 +12,8 @@ import comun.flota.sockets.MyStreamSocket;
  * El metodo run contiene la logica para gestionar una sesion con un cliente.
  */
 
- // Revisar el apartado 5.5. del libro de Liu
+ @SuppressWarnings("unused")
+// Revisar el apartado 5.5. del libro de Liu
 
 class HiloServidorFlota implements Runnable {
    MyStreamSocket myDataSocket;

@@ -17,7 +17,7 @@ public class ServidorFlotaRMI {
 			Naming.rebind(registryURL, exportedObj);
 			System.out.println("Server registrado. Registro contiene: ");
 			listRegistry(registryURL);
-			System.out.println("Hello Server ready.");
+			System.out.println("Juego Server ready.");
 
 		} catch (Exception e) {
 			e.printStackTrace();
