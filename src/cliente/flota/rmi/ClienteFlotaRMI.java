@@ -7,6 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.rmi.Naming;
+import java.rmi.RemoteException;
 
 import javax.swing.*;
 
@@ -354,12 +355,17 @@ public class ClienteFlotaRMI {
 			// Segun elemento menu realiza accion
 			JMenuItem elem = (JMenuItem) e.getSource();
 			String texto = elem.getText();
-			if (texto.equals("Mostrar Solucion")) {
+			
+			switch (texto) {
+			//elementos MenuOpciones
+			case "Mostrar Solucion":
 				guiTablero.muestraSolucion();
-			} else if (texto.equals("Nueva Partida")) {
+				break;
+				
+			case "Nueva Partida":
 				try {
 					partida.nuevaPartida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
-				} catch (IOException e1) {
+				} catch (RemoteException e1) {
 					e1.printStackTrace();
 				}
 				// Resetea el juego a partir de aqui
@@ -367,9 +373,28 @@ public class ClienteFlotaRMI {
 				quedan = NUMBARCOS;
 				disparos = 0;
 				guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
-			} else if (texto.equals("Salir")) {
+				break;
+				
+			case "Salir":
 				salir();
-			}
+				break;
+				
+			//elementos MenuMulti
+			case "Proponer partida":
+				break;
+				
+			case "Borrar partida propuesta":
+				break;
+				
+			case "Listar partidas":
+				break;
+				
+			case "Aceptar partidas":
+				break;
+				
+			default:
+				break;
+			}//end switch
 
 		} // end actionPerformed
 

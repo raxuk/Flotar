@@ -9,6 +9,11 @@ import comun.flota.rmi.IntServidorPartidasRMI;
 
 public class ImplServidorJuegoRMI extends UnicastRemoteObject implements IntServidorJuegoRMI{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2386563524179102652L;
+
 	protected ImplServidorJuegoRMI() throws RemoteException {
 		super();
 	}
