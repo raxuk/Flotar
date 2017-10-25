@@ -1,8 +1,8 @@
-package comun.flota.rmi;
+package servidor.flota.rmi;
 
 import java.rmi.RemoteException;
 
-import comun.comun.Partida;
+import comun.flota.rmi.IntServidorPartidasRMI;
 
 public class ImplServidorPartidasRMI implements IntServidorPartidasRMI {
 	Partida partida = null;
@@ -13,8 +13,8 @@ public class ImplServidorPartidasRMI implements IntServidorPartidasRMI {
 	}
 
 	@Override
-	public void pruebaCasilla(int nf, int nc) throws RemoteException {
-		this.partida.pruebaCasilla(nf, nc);
+	public int pruebaCasilla(int nf, int nc) throws RemoteException {
+		return this.partida.pruebaCasilla(nf, nc);
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package comun.comun;
+package servidor.flota.rmi;
 
 public class Barco {
 

@@ -5,6 +5,7 @@ import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.net.*;
 
+@SuppressWarnings("unused")
 public class ServidorFlotaRMI {
 
 	public static void main(String args[]) {

@@ -1,4 +1,4 @@
-package comun.comun;
+package servidor.flota.rmi;
 
 import java.util.Random;
 import java.util.Vector;

@@ -1,16 +1,21 @@
 package servidor.flota.rmi;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 import comun.flota.rmi.IntCallbackCliente;
 import comun.flota.rmi.IntServidorJuegoRMI;
 import comun.flota.rmi.IntServidorPartidasRMI;
 
-public class ImplServidorJuegoRMI implements IntServidorJuegoRMI {
+public class ImplServidorJuegoRMI extends UnicastRemoteObject implements IntServidorJuegoRMI{
+
+	protected ImplServidorJuegoRMI() throws RemoteException {
+		super();
+	}
 
 	@Override
 	public IntServidorPartidasRMI nuevoServidorPartidas() throws RemoteException {
-		IntServidorPartidasRMI servidorPartidas = new IntServidorPartidasRMI();
+		IntServidorPartidasRMI servidorPartidas = new ImplServidorPartidasRMI();
 		return servidorPartidas;		
 	}
 
