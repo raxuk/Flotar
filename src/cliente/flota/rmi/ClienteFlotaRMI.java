@@ -27,6 +27,7 @@ public class ClienteFlotaRMI {
 
 	private GuiTablero guiTablero = null;
 	private IntServidorPartidasRMI partida = null;
+	private IntServidorJuegoRMI servJuego = null;
 
 	/**
 	 * Atributos de la partida guardados en el juego para simplificar su
@@ -58,7 +59,7 @@ public class ClienteFlotaRMI {
 			String registryURL = "rmi://localhost:1099/juego";
 			// find the remote object and cast it to an
 			// interface object
-			IntServidorJuegoRMI servJuego = (IntServidorJuegoRMI) Naming.lookup(registryURL);
+			servJuego = (IntServidorJuegoRMI) Naming.lookup(registryURL);
 			System.out.println("Lookup completed ");
 			// invoke the remote method
 			// cada cliente usara este objeto "servPartidas" para crear y
@@ -381,6 +382,7 @@ public class ClienteFlotaRMI {
 				
 			//elementos MenuMulti
 			case "Proponer partida":
+				servJuego
 				break;
 				
 			case "Borrar partida propuesta":
