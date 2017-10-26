@@ -2,6 +2,8 @@ package servidor.flota.rmi;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import comun.flota.rmi.IntCallbackCliente;
 import comun.flota.rmi.IntServidorJuegoRMI;
@@ -13,6 +15,7 @@ public class ImplServidorJuegoRMI extends UnicastRemoteObject implements IntServ
 	 * 
 	 */
 	private static final long serialVersionUID = 2386563524179102652L;
+	private HashMap<String, IntCallbackCliente> listaClientesPartidas;
 
 	protected ImplServidorJuegoRMI() throws RemoteException {
 		super();
@@ -26,20 +29,27 @@ public class ImplServidorJuegoRMI extends UnicastRemoteObject implements IntServ
 
 	@Override
 	public boolean proponPartida(String nombreJugador, IntCallbackCliente callbackClientObject) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+	if(!listaClientesPartidas.containsKey(nombreJugador)){
+		listaClientesPartidas.put(nombreJugador, callbackClientObject);
+		return true;
+	}return false;
 	}
 
 	@Override
 	public boolean borraPartida(String nombreJugador) throws RemoteException {
-		// TODO Auto-generated method stub
+		if(listaClientesPartidas.containsKey(nombreJugador)){
+			listaClientesPartidas.remove(nombreJugador);
+		return true;}
 		return false;
 	}
 
 	@Override
 	public String[] listaPartidas() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		String[] listaClientes = new String[listaClientesPartidas.size()];
+		for(int i = 0;i<listaClientes.length;i++){
+			
+		}
+		return listaClientes;
 	}
 
 	@Override

@@ -117,7 +117,7 @@ public class ClienteFlotaRMI {
 		GuiTablero(int numFilas, int numColumnas) {
 			this.numFilas = numFilas;
 			this.numColumnas = numColumnas;
-			frame = new JFrame();
+			frame = new JFrame("Partida de "+nombreJugador);
 			frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			frame.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
@@ -392,23 +392,39 @@ public class ClienteFlotaRMI {
 				
 			//elementos MenuMulti
 			case "Proponer partida":
-				//IntCallbackCliente callbackClientObject = new IntCallbackCliente();
-				servJuego.proponPartida(nombreJugador, callbackClientObject);
+				IntCallbackCliente callbackClientObject = new IntCallbackCliente();
+				try {
+					servJuego.proponPartida(nombreJugador, callbackClientObject);
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 				break;
 				
 			case "Borrar partida propuesta":
-				servJuego.borraPartida(nombreJugador);
+				try {
+					servJuego.borraPartida(nombreJugador);
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 				break;
 				
 			case "Listar partidas":
-				servJuego.listaPartidas();
+				try {
+					servJuego.listaPartidas();
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 				break;
 				
 			case "Aceptar partidas":
 				//Introducir nombre del rival
 				System.out.println("Introducir nombre del rival: ");
 				String nombreRival = scan.nextLine();
-				servJuego.aceptaPartida(nombreJugador, nombreRival);
+				try {
+					servJuego.aceptaPartida(nombreJugador, nombreRival);
+				} catch (RemoteException e1) {
+					e1.printStackTrace();
+				}
 				break;
 				
 			default:
