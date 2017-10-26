@@ -8,9 +8,11 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.util.Scanner;
 
 import javax.swing.*;
 
+import comun.flota.rmi.IntCallbackCliente;
 import comun.flota.rmi.IntServidorJuegoRMI;
 import comun.flota.rmi.IntServidorPartidasRMI;
 
@@ -25,9 +27,12 @@ public class ClienteFlotaRMI {
 	 */
 	public static final int NUMFILAS = 8, NUMCOLUMNAS = 8, NUMBARCOS = 6;
 
+	static Scanner scan = new Scanner(System.in);
+	
 	private GuiTablero guiTablero = null;
 	private IntServidorPartidasRMI partida = null;
 	private IntServidorJuegoRMI servJuego = null;
+	private String nombreJugador = null;
 
 	/**
 	 * Atributos de la partida guardados en el juego para simplificar su
@@ -65,6 +70,11 @@ public class ClienteFlotaRMI {
 			// cada cliente usara este objeto "servPartidas" para crear y
 			// acceder a sus partidas, que se guardaran en el servidor
 			partida = servJuego.nuevoServidorPartidas();
+			
+			//Pedir nombre del jugador e iniciar partida
+			System.out.println("Introducir nombre del jugador: ");
+			nombreJugador=scan.nextLine();
+			partida.nuevaPartida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
 		} // end try
 		catch (Exception e) {
 			System.out.println("Exception en ClienteFlotaRMI: " + e);
@@ -382,16 +392,23 @@ public class ClienteFlotaRMI {
 				
 			//elementos MenuMulti
 			case "Proponer partida":
-				servJuego
+				//IntCallbackCliente callbackClientObject = new IntCallbackCliente();
+				servJuego.proponPartida(nombreJugador, callbackClientObject);
 				break;
 				
 			case "Borrar partida propuesta":
+				servJuego.borraPartida(nombreJugador);
 				break;
 				
 			case "Listar partidas":
+				servJuego.listaPartidas();
 				break;
 				
 			case "Aceptar partidas":
+				//Introducir nombre del rival
+				System.out.println("Introducir nombre del rival: ");
+				String nombreRival = scan.nextLine();
+				servJuego.aceptaPartida(nombreJugador, nombreRival);
 				break;
 				
 			default:

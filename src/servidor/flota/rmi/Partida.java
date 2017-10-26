@@ -2,7 +2,6 @@ package servidor.flota.rmi;
 
 import java.util.Random;
 import java.util.Vector;
-import partida.flota.sockets.Barco;
 
 public class Partida {
 
