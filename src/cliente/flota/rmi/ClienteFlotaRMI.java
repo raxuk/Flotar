@@ -421,7 +421,11 @@ public class ClienteFlotaRMI {
 				System.out.println("Introducir nombre del rival: ");
 				String nombreRival = scan.nextLine();
 				try {
-					servJuego.aceptaPartida(nombreJugador, nombreRival);
+					if(servJuego.aceptaPartida(nombreJugador, nombreRival))
+						System.out.println("Partida contra "+nombreRival+" aceptada con éxito");
+					else{
+						System.out.println(nombreRival+" no ha aceptado la partida");
+					}
 				} catch (RemoteException e1) {
 					e1.printStackTrace();
 				}

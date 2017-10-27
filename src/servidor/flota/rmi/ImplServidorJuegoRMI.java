@@ -3,6 +3,7 @@ package servidor.flota.rmi;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
+import java.util.Scanner;
 import java.util.Map.Entry;
 
 import comun.flota.rmi.IntCallbackCliente;
@@ -54,8 +55,19 @@ public class ImplServidorJuegoRMI extends UnicastRemoteObject implements IntServ
 
 	@Override
 	public boolean aceptaPartida(String nombreJugador, String nombreRival) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		if(listaClientesPartidas.containsKey(nombreRival)){
+			try {
+				listaClientesPartidas.get(nombreRival).notificaPartidaAceptada(nombreJugador);
+			} catch (Exception e) {
+				// TODO rival habia propuesto partida, pero no a aceptado por no accesible o problema
+				listaClientesPartidas.remove(nombreRival);
+				return false;
+			}
+			listaClientesPartidas.remove(nombreRival);
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 }
