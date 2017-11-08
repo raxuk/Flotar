@@ -410,7 +410,6 @@ public class ClienteFlotaRMI {
 					System.out.println("Error en ClienteFlotaRMI  - propon partida");
 					e1.printStackTrace();
 				}
-				System.out.println("PARTIDA PROPUESTA");
 				break;
 
 			case "Borrar partida propuesta":
@@ -435,11 +434,15 @@ public class ClienteFlotaRMI {
 						System.out.println("Partida de: " + s);
 				break;
 
-			case "Aceptar partidas":
+			case "Aceptar Partidas":
 				// Introducir nombre del rival
 				System.out.println("Introducir nombre del rival: ");
 				String nombreRival = scan.nextLine();
 				try {
+					if(nombreJugador.equals(nombreRival)){
+						System.out.println("ERES TONTISIMO");
+						break;
+					}
 					if (servJuego.aceptaPartida(nombreJugador, nombreRival))
 						System.out.println("Partida contra " + nombreRival + " aceptada con éxito");
 					else {

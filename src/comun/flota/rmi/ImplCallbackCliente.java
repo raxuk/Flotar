@@ -8,6 +8,7 @@ public class ImplCallbackCliente extends UnicastRemoteObject implements IntCallb
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = -7196600449787817015L;
 
 	public ImplCallbackCliente() throws RemoteException {
 		super();

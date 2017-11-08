@@ -21,6 +21,7 @@ public class ImplServidorJuegoRMI extends UnicastRemoteObject implements IntServ
 
 	protected ImplServidorJuegoRMI() throws RemoteException {
 		super();
+		listaClientesPartidas = new HashMap<String, IntCallbackCliente>();
 	}
 
 	@Override
@@ -53,10 +54,10 @@ public class ImplServidorJuegoRMI extends UnicastRemoteObject implements IntServ
 
 	@Override
 	public String[] listaPartidas() throws RemoteException {
-		if(listaClientesPartidas.isEmpty())
-			return null;
+		if (listaClientesPartidas.isEmpty())
+			return new String[] { "" };
 		String[] listaClientes = new String[listaClientesPartidas.size()];
-		int i=0;
+		int i = 0;
 		for (Entry<String, IntCallbackCliente> cliente : listaClientesPartidas.entrySet()) {
 			listaClientes[i] = cliente.getKey();
 			i++;
@@ -67,16 +68,13 @@ public class ImplServidorJuegoRMI extends UnicastRemoteObject implements IntServ
 	@Override
 	public boolean aceptaPartida(String nombreJugador, String nombreRival) throws RemoteException {
 		String mensajeRival = nombreJugador + " ha aceptado partida.";
-		String mensajeJug = "Partida de: " + nombreJugador+" aceptada";
 		if (listaClientesPartidas.containsKey(nombreRival)) {
 			try {
 				listaClientesPartidas.get(nombreRival).notifica(mensajeRival);
-				listaClientesPartidas.get(nombreJugador).notifica(mensajeJug);
 			} catch (Exception e) {
 				listaClientesPartidas.remove(nombreRival);
 				return false;
 			}
-			listaClientesPartidas.remove(nombreJugador);
 			listaClientesPartidas.remove(nombreRival);
 			return true;
 		} else {
