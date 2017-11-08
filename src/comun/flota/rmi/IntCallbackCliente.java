@@ -1,10 +1,9 @@
 package comun.flota.rmi;
 
-public class IntCallbackCliente {
-	
-	public void notificaPartidaAceptada(String nombreRival){
-		
-	}
-	
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
+public interface IntCallbackCliente extends Remote {
+
+	public String notifica(String mensaje) throws RemoteException;
 }

@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 import javax.swing.*;
 
+import comun.flota.rmi.ImplCallbackCliente;
 import comun.flota.rmi.IntCallbackCliente;
 import comun.flota.rmi.IntServidorJuegoRMI;
 import comun.flota.rmi.IntServidorPartidasRMI;
@@ -28,11 +29,11 @@ public class ClienteFlotaRMI {
 	public static final int NUMFILAS = 8, NUMCOLUMNAS = 8, NUMBARCOS = 6;
 
 	static Scanner scan = new Scanner(System.in);
-	
-	private GuiTablero guiTablero = null;
-	private IntServidorPartidasRMI partida = null;
-	private IntServidorJuegoRMI servJuego = null;
-	private String nombreJugador = null;
+
+	protected GuiTablero guiTablero = null;
+	protected IntServidorPartidasRMI partida = null;
+	protected IntServidorJuegoRMI servJuego = null;
+	protected String nombreJugador = null;
 
 	/**
 	 * Atributos de la partida guardados en el juego para simplificar su
@@ -64,16 +65,16 @@ public class ClienteFlotaRMI {
 			String registryURL = "rmi://localhost:1099/juego";
 			// find the remote object and cast it to an
 			// interface object
-			servJuego = (IntServidorJuegoRMI) Naming.lookup(registryURL);
+			this.servJuego = (IntServidorJuegoRMI) Naming.lookup(registryURL);
 			System.out.println("Lookup completed ");
+			// Nombre jugador
+			System.out.println("Introducir nombre del jugador: ");
+			this.nombreJugador = scan.nextLine();
 			// invoke the remote method
 			// cada cliente usara este objeto "servPartidas" para crear y
 			// acceder a sus partidas, que se guardaran en el servidor
-			partida = servJuego.nuevoServidorPartidas();
-			
-			//Pedir nombre del jugador e iniciar partida
-			System.out.println("Introducir nombre del jugador: ");
-			nombreJugador=scan.nextLine();
+			this.partida = servJuego.nuevoServidorPartidas();
+			// Pedir nombre del jugador e iniciar partida
 			partida.nuevaPartida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
 		} // end try
 		catch (Exception e) {
@@ -117,7 +118,7 @@ public class ClienteFlotaRMI {
 		GuiTablero(int numFilas, int numColumnas) {
 			this.numFilas = numFilas;
 			this.numColumnas = numColumnas;
-			frame = new JFrame("Partida de "+nombreJugador);
+			frame = new JFrame("Partida de " + nombreJugador);
 			frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			frame.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
@@ -151,12 +152,12 @@ public class ClienteFlotaRMI {
 
 			// menu
 			JMenu opcionesPartidaMenu = new JMenu("Opciones");
-			JMenu opcionesMultiMenu= new JMenu("Multijugador");
+			JMenu opcionesMultiMenu = new JMenu("Multijugador");
 			// añadir menu a la barra
 			menuBar.add(opcionesPartidaMenu);
 			menuBar.add(opcionesMultiMenu);
 
-			//MENU OPCIONES
+			// MENU OPCIONES
 			// elementos del menuOpciones
 			JMenuItem mostrarSolucion = new JMenuItem("Mostrar Solucion");
 			JMenuItem nuevaPartida = new JMenuItem("Nueva Partida");
@@ -169,20 +170,24 @@ public class ClienteFlotaRMI {
 			mostrarSolucion.addActionListener(mlist);
 			nuevaPartida.addActionListener(mlist);
 			salirJuego.addActionListener(mlist);
-			
-			//MENU MULTI
-			//elementos del menu multi
+
+			// MENU MULTI
+			// elementos del menu multi
 			JMenuItem proponPartida = new JMenuItem("Proponer partida");
 			JMenuItem borraPartida = new JMenuItem("Borrar partida propuesta");
 			JMenuItem listaPartidas = new JMenuItem("Listar partidas");
 			JMenuItem aceptaPartida = new JMenuItem("Aceptar Partidas");
-			//añadir elementos al menuMulti
+			// añadir elementos al menuMulti
 			opcionesMultiMenu.add(proponPartida);
 			opcionesMultiMenu.add(borraPartida);
 			opcionesMultiMenu.add(listaPartidas);
 			opcionesMultiMenu.add(aceptaPartida);
-			//añadir listeners a los elementos del menu multi
-			
+			// añadir listeners a los elementos del menu multi
+			proponPartida.addActionListener(mlist);
+			borraPartida.addActionListener(mlist);
+			listaPartidas.addActionListener(mlist);
+			aceptaPartida.addActionListener(mlist);
+
 		} // end anyadeMenu
 
 		/**
@@ -366,13 +371,13 @@ public class ClienteFlotaRMI {
 			// Segun elemento menu realiza accion
 			JMenuItem elem = (JMenuItem) e.getSource();
 			String texto = elem.getText();
-			
+
 			switch (texto) {
-			//elementos MenuOpciones
+			// elementos MenuOpciones
 			case "Mostrar Solucion":
 				guiTablero.muestraSolucion();
 				break;
-				
+
 			case "Nueva Partida":
 				try {
 					partida.nuevaPartida(NUMFILAS, NUMCOLUMNAS, NUMBARCOS);
@@ -385,55 +390,70 @@ public class ClienteFlotaRMI {
 				disparos = 0;
 				guiTablero.cambiaEstado("Intentos: " + disparos + "    Barcos restantes: " + quedan);
 				break;
-				
+
 			case "Salir":
 				salir();
 				break;
-				
-			//elementos MenuMulti
+
+			// elementos MenuMulti
 			case "Proponer partida":
-				IntCallbackCliente callbackClientObject = new IntCallbackCliente();
+				IntCallbackCliente callbackClientObject = null;
+				try {
+					callbackClientObject = new ImplCallbackCliente();
+				} catch (RemoteException e2) {
+					System.out.println("Error en ClienteFlotaRMI  - crear callbackClientObject");
+					e2.printStackTrace();
+				}
 				try {
 					servJuego.proponPartida(nombreJugador, callbackClientObject);
 				} catch (RemoteException e1) {
+					System.out.println("Error en ClienteFlotaRMI  - propon partida");
 					e1.printStackTrace();
 				}
+				System.out.println("PARTIDA PROPUESTA");
 				break;
-				
+
 			case "Borrar partida propuesta":
 				try {
 					servJuego.borraPartida(nombreJugador);
 				} catch (RemoteException e1) {
+					System.out.println("Error en ClienteFlotaRMI  - borrar partida");
 					e1.printStackTrace();
 				}
 				break;
-				
+
 			case "Listar partidas":
+				String[] listaPartidas = null;
 				try {
-					servJuego.listaPartidas();
+					listaPartidas = servJuego.listaPartidas();
 				} catch (RemoteException e1) {
+					System.out.println("Error en ClienteFlotaRMI - lista partida");
 					e1.printStackTrace();
 				}
+				if (!listaPartidas.equals(null))
+					for (String s : listaPartidas)
+						System.out.println("Partida de: " + s);
 				break;
-				
+
 			case "Aceptar partidas":
-				//Introducir nombre del rival
+				// Introducir nombre del rival
 				System.out.println("Introducir nombre del rival: ");
 				String nombreRival = scan.nextLine();
 				try {
-					if(servJuego.aceptaPartida(nombreJugador, nombreRival))
-						System.out.println("Partida contra "+nombreRival+" aceptada con éxito");
-					else{
-						System.out.println(nombreRival+" no ha aceptado la partida");
+					if (servJuego.aceptaPartida(nombreJugador, nombreRival))
+						System.out.println("Partida contra " + nombreRival + " aceptada con éxito");
+					else {
+						System.out.println(nombreRival + " no ha aceptado la partida");
 					}
 				} catch (RemoteException e1) {
+					System.out.println("Error en ClienteFlotaRMI - aceptar partida");
 					e1.printStackTrace();
 				}
 				break;
-				
+
 			default:
 				break;
-			}//end switch
+			}// end switch
 
 		} // end actionPerformed
 

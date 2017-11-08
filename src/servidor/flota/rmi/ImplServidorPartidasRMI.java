@@ -1,11 +1,21 @@
 package servidor.flota.rmi;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
 import comun.flota.rmi.IntServidorPartidasRMI;
 
-public class ImplServidorPartidasRMI implements IntServidorPartidasRMI {
+public class ImplServidorPartidasRMI extends UnicastRemoteObject implements IntServidorPartidasRMI {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8094810623415437567L;
 	Partida partida = null;
+
+	protected ImplServidorPartidasRMI() throws RemoteException {
+		super();
+	}
+
 
 	@Override
 	public void nuevaPartida(int nf, int nc, int nb) throws RemoteException {
