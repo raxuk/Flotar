@@ -55,7 +55,7 @@ public class ImplServidorJuegoRMI extends UnicastRemoteObject implements IntServ
 	@Override
 	public String[] listaPartidas() throws RemoteException {
 		if (listaClientesPartidas.isEmpty())
-			return new String[] { "" };
+			return new String[]{""};
 		String[] listaClientes = new String[listaClientesPartidas.size()];
 		int i = 0;
 		for (Entry<String, IntCallbackCliente> cliente : listaClientesPartidas.entrySet()) {

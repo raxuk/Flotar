@@ -67,9 +67,11 @@ public class ClienteFlotaRMI {
 			// interface object
 			this.servJuego = (IntServidorJuegoRMI) Naming.lookup(registryURL);
 			System.out.println("Lookup completed ");
-			// Nombre jugador
-			System.out.println("Introducir nombre del jugador: ");
-			this.nombreJugador = scan.nextLine();
+			while (nombreJugador == null || nombreJugador.equals("")) {
+				// Nombre jugador
+				System.out.println("Introducir nombre del jugador: ");
+				this.nombreJugador = scan.nextLine();
+			}
 			// invoke the remote method
 			// cada cliente usara este objeto "servPartidas" para crear y
 			// acceder a sus partidas, que se guardaran en el servidor
@@ -92,6 +94,7 @@ public class ClienteFlotaRMI {
 	private void salir() {
 		try {
 			guiTablero.liberaRecursos();
+			servJuego.borraPartida(nombreJugador);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -429,9 +432,12 @@ public class ClienteFlotaRMI {
 					System.out.println("Error en ClienteFlotaRMI - lista partida");
 					e1.printStackTrace();
 				}
-				if (!listaPartidas.equals(null))
+				if (listaPartidas[0].equals("")) {
+					System.out.println("No hay partidas propuestas.");
+				} else {
 					for (String s : listaPartidas)
 						System.out.println("Partida de: " + s);
+				}
 				break;
 
 			case "Aceptar Partidas":
@@ -439,14 +445,14 @@ public class ClienteFlotaRMI {
 				System.out.println("Introducir nombre del rival: ");
 				String nombreRival = scan.nextLine();
 				try {
-					if(nombreJugador.equals(nombreRival)){
-						System.out.println("ERES TONTISIMO");
+					if (nombreJugador.equals(nombreRival)) {
+						System.out.println("No puedes aceptar tu propia partida.");
 						break;
 					}
 					if (servJuego.aceptaPartida(nombreJugador, nombreRival))
 						System.out.println("Partida contra " + nombreRival + " aceptada con éxito");
 					else {
-						System.out.println(nombreRival + " no ha aceptado la partida");
+						System.out.println("Partida de " + nombreRival + " no existe.");
 					}
 				} catch (RemoteException e1) {
 					System.out.println("Error en ClienteFlotaRMI - aceptar partida");
