@@ -31,7 +31,7 @@ public class ImplServidorJuegoRMI extends UnicastRemoteObject implements IntServ
 	}
 
 	@Override
-	public boolean proponPartida(String nombreJugador, IntCallbackCliente callbackClientObject) throws RemoteException {
+	public synchronized boolean proponPartida(String nombreJugador, IntCallbackCliente callbackClientObject) throws RemoteException {
 		if (!listaClientesPartidas.containsKey(nombreJugador)) {
 			listaClientesPartidas.put(nombreJugador, callbackClientObject);
 			String mensaje = "Partida propuesta con éxito.";
@@ -42,7 +42,7 @@ public class ImplServidorJuegoRMI extends UnicastRemoteObject implements IntServ
 	}
 
 	@Override
-	public boolean borraPartida(String nombreJugador) throws RemoteException {
+	public synchronized boolean borraPartida(String nombreJugador) throws RemoteException {
 		if (listaClientesPartidas.containsKey(nombreJugador)) {
 			String mensaje = "Partida borrada con éxito.";
 			listaClientesPartidas.get(nombreJugador).notifica(mensaje);
@@ -53,7 +53,7 @@ public class ImplServidorJuegoRMI extends UnicastRemoteObject implements IntServ
 	}
 
 	@Override
-	public String[] listaPartidas() throws RemoteException {
+	public synchronized String[] listaPartidas() throws RemoteException {
 		if (listaClientesPartidas.isEmpty())
 			return new String[]{""};
 		String[] listaClientes = new String[listaClientesPartidas.size()];
@@ -66,7 +66,7 @@ public class ImplServidorJuegoRMI extends UnicastRemoteObject implements IntServ
 	}
 
 	@Override
-	public boolean aceptaPartida(String nombreJugador, String nombreRival) throws RemoteException {
+	public synchronized boolean aceptaPartida(String nombreJugador, String nombreRival) throws RemoteException {
 		String mensajeRival = nombreJugador + " ha aceptado partida.";
 		if (listaClientesPartidas.containsKey(nombreRival)) {
 			try {
