@@ -16,7 +16,7 @@ public class ImplCallbackCliente extends UnicastRemoteObject implements IntCallb
 
 	@Override
 	public String notifica(String mensaje) {
-		String retunMsj = "Callback recibido: "+mensaje;
+		String retunMsj = mensaje;
 		System.out.println(retunMsj);
 		return retunMsj;
 	}

@@ -408,7 +408,10 @@ public class ClienteFlotaRMI {
 					e2.printStackTrace();
 				}
 				try {
-					servJuego.proponPartida(nombreJugador, callbackClientObject);
+					if(servJuego.proponPartida(nombreJugador, callbackClientObject))
+						System.out.println("Partida propuesta con éxito.");
+					else
+						System.out.println("No se ha podido proponer la partida.");
 				} catch (RemoteException e1) {
 					System.out.println("Error en ClienteFlotaRMI  - propon partida");
 					e1.printStackTrace();
@@ -417,7 +420,10 @@ public class ClienteFlotaRMI {
 
 			case "Borrar partida propuesta":
 				try {
-					servJuego.borraPartida(nombreJugador);
+					if(servJuego.borraPartida(nombreJugador))
+						System.out.println("Partida borrada con éxito.");
+					else
+						System.out.println("No se ha podido borrar la partida.");
 				} catch (RemoteException e1) {
 					System.out.println("Error en ClienteFlotaRMI  - borrar partida");
 					e1.printStackTrace();
@@ -435,6 +441,7 @@ public class ClienteFlotaRMI {
 				if (listaPartidas[0].equals("")) {
 					System.out.println("No hay partidas propuestas.");
 				} else {
+					System.out.println("Lista partidas:");
 					for (String s : listaPartidas)
 						System.out.println("Partida de: " + s);
 				}
