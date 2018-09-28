@@ -9,7 +9,7 @@ public class ServidorFlotaRMI {
 
 	public static void main(String args[]) {
 		try {
-			System.setSecurityManager(new SecurityManager());
+			//System.setSecurityManager(new SecurityManager());
 
 			startRegistry(1099);
 			ImplServidorJuegoRMI exportedObj = new ImplServidorJuegoRMI();

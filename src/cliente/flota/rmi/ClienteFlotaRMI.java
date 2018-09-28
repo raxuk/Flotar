@@ -60,7 +60,7 @@ public class ClienteFlotaRMI {
 		try {
 			// start a security manager - this is needed if stub
 			// downloading is in use for this application.
-			System.setSecurityManager(new SecurityManager());
+			//System.setSecurityManager(new SecurityManager());
 
 			String registryURL = "rmi://localhost:1099/juego";
 			// find the remote object and cast it to an
